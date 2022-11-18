@@ -83,7 +83,6 @@ body{
 .author{
     text-align: right;
     font-size: 15px;
-    /* font-family: 'Pacifico', cursive; */
     font-family: 'Quicksand', sans-serif;
 }
 
@@ -104,6 +103,7 @@ body{
 
 .new_quote{
     cursor: pointer;
+    font-family: 'Pacifico', cursive;
 }
 
     
