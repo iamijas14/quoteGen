@@ -4,24 +4,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" 
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer" 
+    />
+    <link rel="stylesheet" href="styles.css">
     <title>quoteGen</title>
 </head>
 <body>
-    <div id="quotes"></div>
-    <div id="author"></div>
-    <button id="quoteGen">New quotes</button>
-    <button id="tweet">Tweet</button>
+    <div class="container">
+        <div class="inner">
+            <div class="box">
+                <p class="tweet">
+                    <img 
+                        src="images/twi-logo.png" 
+                        alt="twitter-logo" 
+                        title="tweet" 
+                        id="tweet"
+                        class="tweet_img"
+                    />
+                </p>
+
+                <div class="quote_info">
+                    <i class="start_quote_symbol fa-solid fa-quote-left"></i>
+                    <p id="quotes" class="quote"></p>
+                    <p id="author" class="author"></p>
+                </div>
+
+                <label class="button">
+                    <p id="new_quote" class="new_quote">New quote</p>
+                </label>
+            </div>
+        </div>
+    </div>
 
     <script>
-
         const quotes = document.getElementById('quotes');
         const author = document.getElementById('author');
-        const quoteGen = document.getElementById('quoteGen');
+        const newQuote = document.getElementById('new_quote');
         const tweet = document.getElementById('tweet');
 
         let jsonData = "";
         let quotesData = "";
-
+    
         const tweetNow = () => {
             // let tweetQuote = `quote: ${quotesData.text}\nAuthour: ${quotesData.author}`
             let post = `https://twitter.com/intent/tweet?text=${quotesData.text}`;
@@ -29,12 +57,12 @@
         }
 
         const getNewQuote = () => {
-            let randomNum = Math.floor(Math.random() * 30)
+            let randomNum = Math.floor(Math.random() * 1000)
             quotesData = jsonData[randomNum];
             quotes.innerHTML = `${quotesData.text}`;
             quotesData.author == null
             ? author.innerHTML = 'unknown'
-            : author.innerHTML = `${quotesData.author}`;
+            : author.innerHTML = `- ${quotesData.author}`;
         }
 
         const getQuotes = async () => {
@@ -42,14 +70,15 @@
             try {
                 const data = await fetch(api);
                 jsonData = await data.json();
+                console.log(jsonData.length)
                 getNewQuote();
             } catch (error) {
                 console.log(error);
             }
         }
 
-        quoteGen.addEventListener('click', getNewQuote);
-        // tweet.addEventListener('click', tweetNow)
+        newQuote.addEventListener('click', getNewQuote);
+        tweet.addEventListener('click', tweetNow)
         getQuotes();
 
     </script>
